@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+
+<p id="demo"></p>
+
+<script>
+function square(x){
+	return x*x;
+}
+function double(x){
+	return x*2;
+}
+function composedValue(f1,f2,x)
+{
+	const val1=f2(x);
+	return (f1(val1));
+}
+document.getElementById('demo').innerHTML=composedValue(square,double,5);
+</script>
+
+</body>
+</html>
