@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+
+    <script>
+
+var TRAVERSAL = {
+  PREORDER: 1,
+  INORDER: 2,
+  POSTORDER: 3,
+};
+
+
+
+
+function treeNode(left, newData, right) {
+    if (new.target === undefined) {
+         console.log('You didnt use new. Giving you a new treeNode');
+         return new treeNode(null, data, null);
+    }
+    this.left = left || null;
+    this.data = newData;
+    this.right = right || null;
+
+    this.display = function() {
+        console.log(": " +this.data);
+    };
+
+    this.delete = function() {
+      this.left = null;
+      this.right = null;
+      this.data = null;
+    }
+}
+
+
+
+function UnBalancedBST() {
+    var head = null;
+    var numOfStepsForSearch = 0;
+
+    this.displayNumOfStepsForSearch = function() {
+      return numOfStepsForSearch;
+    }
+
+    this.getRoot = function() {
+      return head;
+    }
+
+     function traverseSearch(number, node) {
+       if (node == null) return null;
+       numOfStepsForSearch++;
+
+       if (number > node.data) {
+          return traverseSearch(number, node.right);
+       } else if (number < node.data ){
+          return traverseSearch(number, node.left);
+       } else if (number == node.data) {
+          return node;
+       }
+     }
+
+     this.search = function(numberToFind) {
+        numOfStepsForSearch = 0;
+
+        if (head) {
+            return traverseSearch(numberToFind, head);
+        }
+     }
+
+    function traverseInsertion(numberToInsert, node) {
+        if (node == null) { return new treeNode(null, numberToInsert, null); }
+        if (numberToInsert > node.data) {
+            node.right = traverseInsertion(numberToInsert, node.right);
+            return node;
+        } else {
+            node.left = traverseInsertion(numberToInsert, node.left);
+            return node;
+        }
+    }
+
+    // PUBLIC
+    this.insert = function(number) {
+        if (head == null) {
+          head = new treeNode(null, number, null);
+        } else {
+            if (number > head.data) { head.right = traverseInsertion(number, head.right); }
+            else { head.left = traverseInsertion(number, head.left); }
+        }
+    };
+
+    function inOrderPrint(node) {
+        if (node == null) return;
+        inOrderPrint(node.left);
+        if (head == node) {
+          console.log("===============  HEAD  ==================");
+        }
+        node.display();
+        if (head == node) {
+          console.log("=============================================")
+        }
+        inOrderPrint(node.right);
+    }
+
+    // PRIVATE
+    function preOrderPrint(node) {
+        if (node == null) return;
+        node.display();
+        preOrderPrint(node.left);
+        preOrderPrint(node.right);
+    }
+
+    // PRIVATE
+    function postOrderPrint(node) {
+        if (node == null) return;
+        postOrderPrint(node.left);
+        postOrderPrint(node.right);
+        node.display();
+    }
+
+    // PUBLIC
+    this.print = function(traversalType) {
+        console.log(" printing tree ");
+
+        if (head) {
+          console.log("Head is " + head.data + "..!");
+          switch (traversalType) {
+              case TRAVERSAL.INORDER: inOrderPrint(head);
+              break;
+              case TRAVERSAL.PREORDER: preOrderPrint(head);
+              break;
+              case TRAVERSAL.POSTORDER: postOrderPrint(head);
+            default:
+          }
+        } else {
+          console.log("Tree is currently empty.")
+        }
+    };
+
+
+    function inOrderToArray(node, array) {
+        if (node == null) return;
+        inOrderToArray(node.left, array);
+        array.push(node.data);
+        inOrderToArray(node.right, array);
+    }
+
+    this.flattenInOrderToSortedArray = function() {
+      var sortedArray = [];
+      if (head) {
+          inOrderToArray(head, sortedArray);
+      }
+      return sortedArray;
+    }
+
+    function buildBalancedTree(array) {
+        if (array.length == 0) { return null; }
+
+        var mid = Math.floor((array.length)/2);
+        var n = new treeNode(null, array[mid], null);
+
+        var arrayOnLeft = array.slice(0, mid);
+        n.left = buildBalancedTree(arrayOnLeft);
+
+        var arrayOnRight= array.slice(mid+1);
+        n.right = buildBalancedTree(arrayOnRight);
+
+        return n;
+    }
+
+    this.sortedArrayToBalancedTree = function(array) {
+        if (head) {
+            return buildBalancedTree(array);
+        }
+        return null;
+    };
+
+
+    function countBalance(node, balancedCallBack) {
+        if (node == null) { return -1; }
+            var leftCount = 1 + countBalance(node.left, balancedCallBack);
+            var rightCount = 1 + countBalance(node.right, balancedCallBack);
+            if (Math.abs(leftCount-rightCount) > 1) {
+              balancedCallBack(false, node);
+            }
+            return (leftCount >= rightCount) ? leftCount : rightCount;
+    }
+
+    // PUBLIC
+    // Checks to see if an unbalanceness exist in the tree
+    this.checkForBalanceness = function(balancedTree) {
+      var balancenessExist = true;
+      countBalance(balancedTree, function(balanced = true, node) {
+        if (balanced == false) {
+          balancenessExist = balanced
+        }
+      });
+
+      console.log("Does Balancess Exist? : " + balancenessExist);
+    }
+
+    this.remove = function(number) {
+      console.log("Let's remove: " + number);
+
+      if (head) {
+          if (head.data == number && rightChildOnly(head)) {
+              var temp = head; head = head.right; temp.delete();
+              return head;
+          }
+          else if (head.data == number && leftChildOnly(head)) {
+              var temp = head; head = head.left; temp.delete();
+              return head;
+          }
+          else if (head.data == number && noChildren(head)) {
+              head.delete(); head = null;
+              return head;
+          }
+          return this.traverseRemove(number, head);
+      } else {
+        console.log("Empty tree. Nothing to remove");
+      }
+    };
+
+    //PRIVATE
+    // Finds the minimum of sub-tree and delete it
+    function deleteMinimum(node, removeCallBack) {
+
+        if (noChildren(node)) {
+            removeCallBack(node);
+            return null;
+        }
+
+        if (rightChildOnly(node)) {
+            removeCallBack(node);
+            return node.right;
+        }
+
+        if (node.left) {
+            node.left = deleteMinimum(node.left, removeCallBack);
+            return node;
+        }
+    }
+
+    //PRIVATE UTILITY FOR CHECKING NODE'S CHILDREN EXISTENCE
+
+    function noChildren(node) {
+        return (node.left == null && node.right == null);
+    }
+    function leftChildOnly(node) {
+        return (node.left != null && node.right == null);
+    }
+    function rightChildOnly(node) {
+      return (node.left == null && node.right != null);
+    }
+    function bothChildExist(node) {
+      return (node.left != null && node.right != null);
+    }
+
+
+
+    // PUBLIC
+    //
+    this.traverseRemove = function (number, node) {
+        if (node == null) {
+            console.log("You're at leaf end, null. Number " + number + " not found. :P )");
+            return null;
+        }
+        if (number > node.data) {
+            node.right = this.traverseRemove(number, node.right);
+            return node;
+        } else if (number < node.data) {
+            node.left = this.traverseRemove(number, node.left);
+            return node;
+        } else if (number == node.data) {
+            if (noChildren(node)) {
+                node.delete(); return null;
+            }
+            if (leftChildOnly(node)) {
+                var leftNodeRef = node.left; node.delete(); return leftNodeRef;
+            }
+            if (rightChildOnly(node)) {
+                var rightNodeRef = node.right; node.delete(); return rightNodeRef;
+            }
+            if (bothChildExist(node)) {
+                var nodeToDelete;
+                node.right = deleteMinimum(node.right, function(toRemove){
+                    node.data = toRemove.data;
+                    nodeToDelete = toRemove;
+                });
+                nodeToDelete.delete();
+                return node;
+            }
+        } // FOUND
+    } // traverseRemove function
+
+
+    function getHeight(node) {
+        if (node == null) return 0;
+        if (node.left == null && node.right == null) { return 0; }
+        var leftCount, rightCount = 0; // at every node, we begin with 0
+
+        // if the left exist, we count the edge
+        if (node.left) { leftCount = getHeight(node.left) + 1; }
+
+        // right right exist, we count the edge
+        if (node.right) { rightCount = getHeight(node.right) + 1; }
+
+        return (leftCount > rightCount) ? leftCount : rightCount;
+    }
+
+    // GET HEIGHT OF Tree
+    this.height = function() {
+        if (head) {
+          return getHeight(head);
+        }
+    }
+}
+
+UnBalancedBST.CreateObject = function() {
+  return new UnBalancedBST();
+}
+
+var myBST = UnBalancedBST.CreateObject();
+myBST.insert(50);
+myBST.insert(40);
+myBST.insert(30);
+myBST.insert(45);
+myBST.insert(90);
+myBST.insert(82);
+myBST.insert(96);
+myBST.insert(98);
+myBST.insert(99);
+myBST.print(TRAVERSAL.INORDER);
+
+console.log("height of tree is:");
+console.log(myBST.height());
+
+    </script>
+</body>
+</html>
