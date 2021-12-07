@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function square(value){
+                return value*value;
+            }
+
+            function double(value){
+                return value*2;
+            }
+
+            function f1 (value){
+                return square(double(value));
+            }
+             function f2(value){
+                 return double(square(value));
+             }
+
+            var value=window.prompt("Enter value: ");
+            console.log(f1(value));
+            console.log(f2(value));
+        </script>
+    </body>
+</html>
