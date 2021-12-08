@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Arrow Function & Converting array string into Array Onject
+const convertArrayToObj = (arr) => {
+    let objectArray = [];
+    arr.forEach((element) => {
+        var tempObj = {
+            name: element, 
+            length: element.length
+        };
+        objectArray.push(tempObj);
+    });
+    return objectArray;
+} 
+
+let myArrayStr = ['Hey', 'Buddy', 'how', 'are', 'you'];
+convertArrayToObj(myArrayStr);
+    </script>
+</body>
+</html>

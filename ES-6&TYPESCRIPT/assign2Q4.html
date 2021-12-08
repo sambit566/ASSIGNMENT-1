@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const chatRoomsUsers1 = [{
+    "Jamie": "hi"},
+    {"Andrew": "how are you"},
+    {"Steven": "bye"
+}];
+const chatRoomsUsers2 = [{
+    "Anshul": "namaste"},
+    {"Shivam": "program"},
+    {"Trisha": "javascript"
+}];
+const getUserName = (userData)=>{
+    console.log("chatroom1");
+    userData.map(item => console.log(item))
+}
+const getUserMessages = (userData)=>{
+    console.log("");
+    console.log("chatroom2");
+    userData.map(item => console.log(item))
+}
+getUserName(chatRoomsUsers1)
+getUserMessages(chatRoomsUsers2)
+    </script>
+</body>
+</html>

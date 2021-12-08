@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let animals =['Porcupine','Nightangle','Hornbill','Rhino'];  
+// let a,b,c;  
+[, , ,a,] = animals;  
+console.log(a);
+
+
+
+// Object Deep Matching
+let organization = {
+    name: "Audi",
+    address:{
+        street: "Bala Port luis",
+        city: "CLEVLEN OHIYO",
+        pincode: 78902
+    }
+}
+
+let {address: {pincode: pincode}} = organization;
+
+console.log("Pincode:", pincode);
+    </script>
+</body>
+</html>

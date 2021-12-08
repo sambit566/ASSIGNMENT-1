@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Sub Question 1
+let add = (a = 17, b = 9) => {
+    console.log(`a: ${a} b: ${b} addition is: ${a+b}`);
+  };
+  
+  add();
+  add(10);
+  // Sub Question 2
+  let userWithFriends = (userName, ...userFriends) => {
+      console.log(`{userName: "${userName}", list of Friends is: "${userFriends}"}`);
+  }
+  
+  userWithFriends('Anmol','Ravi','Priya','Rahul','Asif');
+  userWithFriends('Sambit','Himanshu','Arpan','Surya');
+
+  // Sub Question 3
+  let printCapitalNames = (...names) => {
+      const result= [];
+      names.forEach((element) => {
+          result.push(element.toUpperCase());
+      });
+      console.log(`Names in Upper Case: "${result }"`);
+  }
+  
+  let namesList = ['shitija','anupama','vikash','souvik'];
+  console.log(namesList);
+  printCapitalNames(...namesList);
+    </script>
+</body>
+</html>
